@@ -16,6 +16,19 @@ class Product < ApplicationRecord
   
   validates :title, presence: { message: "Teni que poner un titulo tonto qlo jajaja" }
   validates :code, uniqueness: { message: "El code %{value} ya esta en uso pajaron" }
+  
+  # validaciones propias
+  validate :code_validate_length
+
+
+  private
+  
+  def code_validate_length
+    if self.code.nil? || self.code.length < 3
+      self.errors.add(:code, "Probando solamente!")
+    end
+  end
+
   def send_notification
     puts "Que pasa oe #{self.title}? after"
   end
