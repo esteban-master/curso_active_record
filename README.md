@@ -2,7 +2,8 @@
 
 ## Relaciones en active record
 
-Ejemplo entre modelo de **users** y **shopping_cart**, un *user* puede tener multiples *shopping_cart* y este ultimo le pertenece a 1 user, entonces la relacion es **1 a muchos**.
+### has_many (1 a muchos)
+Ejemplo entre modelo de **users** y **shopping_cart**, un *user* puede tener multiples *shopping_cart* y este ultimo le pertenece a 1 user, entonces la relacion es **1 a muchos**. (has_many)
 
 Para saber en que modelo va la llave foranea del ejemplo anterior, hay que responder esta pregunta: **¿Quien pertenece a quien?**, en este caso el *shopping_cart* le pertenece al *user*, entonces en el modelo de pertenencia vamos a colocar la llave foranea.
 
@@ -14,6 +15,21 @@ rails generate model shopping_cart total:integer user:references
 ```
 Esto de forma automatica Active Record genera un campo de tipo llave foranea en *shopping_cart*
 
+### has_many (muchos a muchos)
+
+Un **shopping_cart** puede almacenar muchos **products**, y su vez un **product** puede encontrarse en multiples **shopping_cart**
+
+Para realizar esta relacion, nos tenemos que apoyar de una tercera tabla, una tabla intermedia, y en esta nueva tabla vamos a definir 2 llaves foraneas, y apartir de ellas, sera posible relacionar la tabla **products** junto con la tabla **shopping_carts**.
+
+Entonces creamos nuestro tercer modelo encargado de establecer la relacion, llamado **shopping_cart_product**, haciendo una union entre estos modelos:
+
+```bash
+  rails g model shopping_cart_product shopping_cart:references product:references
+```
+
+Esto genera un archivo de migracion para ese modelo, ahora hay que migrarlo a la base de datos con el comando `rails db:migrate`
+
+Luego agregamos la relacion `has_many :shopping_cart_products` en los modelos `product.rb` y `shopping_cart` y listo.
 
 ## Migraciones
 
