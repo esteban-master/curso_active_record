@@ -20,8 +20,16 @@ class Product < ApplicationRecord
   # validaciones propias
   validate :code_validate_length
 
-
+  # Validaciones con clases perzonalizadas
   validates_with ProductValidator
+
+  # Scopes, sentencias preestablecidas de consultas, se adjuntan al Modelo como un metodo, usando una funcion lamba
+  # Ejemplo -> Product.available
+  scope :available, ->  ( min = 1 )  { where(  'stock >= ?', min  ) }
+  scope :order_price_desc, -> { order(  'price DESC'  ) }
+  
+  # Scope a partir de otros scopes
+  scope :available_order_price_desc, ->  { available.order_price_desc }
 
   private
   
