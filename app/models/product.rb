@@ -12,11 +12,13 @@
 #
 class Product < ApplicationRecord
   
-  after_save :send_notification
+  after_create :send_notification
   
   validates :title, presence: { message: "Teni que poner un titulo tonto qlo jajaja" }
   validates :code, uniqueness: { message: "El code %{value} ya esta en uso pajaron" }
   
+  before_update :code_notification_changed, if: :code_changed?
+
   # validaciones propias
   validate :code_validate_length
 
@@ -46,6 +48,10 @@ class Product < ApplicationRecord
 
   def send_notification
     puts "Nuevo producto agregado: #{self.title}"
+  end
+
+  def code_notification_changed
+    puts "Codigo a sido modificado!"
   end
 
 end
