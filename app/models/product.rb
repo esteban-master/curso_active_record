@@ -40,7 +40,7 @@ class Product < ApplicationRecord
   
   def code_validate_length
     if self.code.nil? || self.code.length < 3
-      self.errors.add(:code, "Probando solamente!")
+      self.errors.add(:code, "El code debe tener al menos 3 caracteres")
     end
   end
 
