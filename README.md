@@ -1,24 +1,17 @@
-# README
+# APUNTES
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Relaciones en active record
 
-Things you may want to cover:
+Ejemplo entre modelo de **users** y **shopping_cart**, un *user* puede tener multiples *shopping_cart* y este ultimo le pertenece a 1 user, entonces la relacion es **1 a muchos**.
 
-* Ruby version
+Para saber en que modelo va la llave foranea del ejemplo anterior, hay que responder esta pregunta: **¿Quien pertenece a quien?**, en este caso el *shopping_cart* le pertenece al *user*, entonces en el modelo de pertenencia vamos a colocar la llave foranea.
 
-* System dependencies
+En rails Active Record, para crear llave foranea hay que hacer una referencia, ejemplo:
 
-* Configuration
+```bash
+rails generate model shopping_cart total:integer user:references
 
-* Database creation
+```
+Esto de forma automatica Active Record genera un campo de tipo llave foranea en *shopping_cart*
 
-* Database initialization
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
