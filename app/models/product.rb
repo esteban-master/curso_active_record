@@ -21,6 +21,8 @@ class Product < ApplicationRecord
   validate :code_validate_length
 
 
+  validates_with ProductValidator
+
   private
   
   def code_validate_length
@@ -30,7 +32,7 @@ class Product < ApplicationRecord
   end
 
   def send_notification
-    puts "Que pasa oe #{self.title}? after"
+    puts "Nuevo producto agregado: #{self.title}"
   end
 
 end
