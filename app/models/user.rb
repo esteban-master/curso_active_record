@@ -9,4 +9,6 @@
 #  updated_at :datetime         not null
 #
 class User < ApplicationRecord
+  # agregar el nombre del modelo en plural
+  has_many :shopping_carts 
 end
