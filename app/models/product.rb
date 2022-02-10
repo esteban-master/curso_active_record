@@ -12,6 +12,8 @@
 #
 class Product < ApplicationRecord
   
+  has_many :shopping_cart_products
+
   after_create :send_notification
   
   validates :title, presence: { message: "Teni que poner un titulo tonto qlo jajaja" }
