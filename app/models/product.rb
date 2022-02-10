@@ -31,6 +31,11 @@ class Product < ApplicationRecord
   # Scope a partir de otros scopes
   scope :available_order_price_desc, ->  { available.order_price_desc }
 
+  # Scope usando metodos de clase
+  def self.top_5
+    self.available.order_price_desc.limit(5).select(:title, :code)
+  end
+
   private
   
   def code_validate_length
