@@ -48,3 +48,27 @@ Luego realizar migracion:
 
 La migracion se va a aplicar a la tabla **shopping_carts** en la base de datos.
 
+## Queries
+
+Usar el metodo `includes` al realizar una consulta entre uniones, para realizar solo una consulta y no consultas de **n + 1** que provocaria una bajada de performance en la app al realizar muchas consultas. Un ejemplo seria obtener todos los `products` de un `shopping_cart` que le pertenece a un `user`
+
+Ejemplo de consulta **mala** en active record, donde se imprimen todos los productos del carrito de un usuario:
+
+```ruby
+  User.find(1).shopping_cart.shopping_cart_products.each do |sho|
+    puts sho.product.title
+  end
+```
+El codigo anterior va a realizar **n + 1** consultas a la base de datos, ya que obtenemos los productos agregados al carrito (tabla de union muchos a muchos), luego recorremos para obtener el producto en si.
+
+Ejemplo de consulta **buena** del mismo ejercicio, usando el metodo `includes` que relaciona los modelos:
+
+```ruby
+  User.find(1).shopping_cart.shopping_cart_products.includes(:product).each do | sho |
+    puts sho.product.title
+  end
+```
+
+Esta consulta es mucho mejor, ya que incluye la peticion de todos los productos, solo realizan 2 consultas a la base de datos:
+1. Obtenemos todos los objetos de la tabla `shopping_cart_product` (tabla de muchos a muchos)
+2. Luego otra consulta donde obtenemos los productos a partir de un listado de IDs obtenidos de la tabla `shopping_cart_products` -> IN (1, 2, 3, ...etc)
